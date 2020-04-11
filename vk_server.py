@@ -13,7 +13,7 @@ class vk_server:
     def start(self):
         for event in self.longpoll.listen():
             if event.type == VkBotEventType.MESSAGE_NEW:
-                msg = event.obj.message['text']
+                msg = self.get_message(event)
                 if msg != '':
                     if event.from_user:
                         if msg.lower() in cmd.commands:
@@ -34,3 +34,7 @@ class vk_server:
 
     def get_user_name(self, user_id):
         return self.vk_api.users.get(user_id=user_id)[0]['first_name']
+
+    @staticmethod
+    def get_message(event):
+        return event.obj.message['text']
