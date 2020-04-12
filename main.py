@@ -16,7 +16,7 @@ while True:
         print("Неверно указаны данные для работы Бота")
         break
     except pymysql.err.OperationalError:
-        print("Неверно указаны данны для работы с БД")
+        print("Неверно указаны данные для работы с БД")
         break
     except:
         continue
