@@ -10,8 +10,9 @@ class DataBase:
             'database': database,
             'port': port
         }
+        self.connection = self.cursor = None
 
-    def __connect(self):
+    def connect(self):
         self.connection = pymysql.connect(
             self.connection_data['host'],
             self.connection_data['username'],
@@ -20,10 +21,11 @@ class DataBase:
             self.connection_data['port']
         )
         self.cursor = self.connection.cursor()
+        return self.cursor, self.connection
 
     def __default_check(self, check_var=None, check_type=None):
         try:
-            self.__connect()
+            self.connect()
         except pymysql.err.OperationalError:
             return False
         if check_var is None:
@@ -94,10 +96,21 @@ class DataBase:
 
         return False
 
-    def get_user_state(self, id):
-        if self.__default_check(id, int) and id is not None:
+    def get_user_city(self, user_id):
+        if self.__default_check(user_id, int) and id is not None:
             with self.cursor as cursor:
-                cursor.execute("""SELECT UserState FROM `user_info` WHERE UserID={}""".format(id))
+                cursor.execute("""SELECT UserCity, UserRegion FROM `user_info` WHERE UserID={}""".format(user_id))
+
+            row = cursor.fetchone()
+            if row is not None and row[0] is not None or row[1] is not None:
+                return row
+
+        return False
+
+    def get_user_state(self, user_id):
+        if self.__default_check(user_id, int) and id is not None:
+            with self.cursor as cursor:
+                cursor.execute("""SELECT UserState FROM `user_info` WHERE UserID={}""".format(user_id))
 
             row = cursor.fetchone()
             if row is not None:

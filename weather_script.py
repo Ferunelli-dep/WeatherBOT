@@ -1,7 +1,7 @@
 import requests
 
 
-class Weather:
+class weather:
     def __init__(self, place, API, region=""):
         self.place = place
         self.region = region
@@ -13,7 +13,7 @@ class Weather:
             'https': 'http://31.14.131.70:8080'
         }
 
-    def __check(self, place):
+    def check(self):
         res = requests.get(self.URL, self.params, proxies=self.proxies)
         data = res.json()
         if 'message' in data:
@@ -21,11 +21,11 @@ class Weather:
         else:
             return data
 
-    def getWeatherNow(self):
+    def get_weather_now(self):
         proxy_state = True
         while proxy_state:
             try:
-                city_info = self.__check(self.place)
+                city_info = self.check()
                 if not city_info:
                     return 'Not found'
                 proxy_state = False
