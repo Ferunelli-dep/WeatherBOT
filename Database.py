@@ -24,10 +24,7 @@ class DataBase:
         return self.cursor, self.connection
 
     def __default_check(self, check_var=None, check_type=None):
-        try:
-            self.connect()
-        except pymysql.err.OperationalError:
-            return False
+        self.connect()
         if check_var is None:
             pass
         else:

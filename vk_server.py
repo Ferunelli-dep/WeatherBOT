@@ -39,7 +39,8 @@ class vk_server:
 
     def create_keyboard(self, response, user_id):
         keyboard = VkKeyboard(one_time=False)
-        if response in ['начало', 'привет', 'помощь', 'отмена', 'погода', 'мой город'] or self.db.get_user_state(user_id) == 2:
+        if response in ['начать', 'привет', 'помощь', 'отмена', 'погода', 'мой город', 'start'] \
+                        or self.db.get_user_state(user_id) == 2:
             keyboard.add_button('Добавить Город', color=VkKeyboardColor.PRIMARY)
             keyboard.add_button('Мой Город', color=VkKeyboardColor.PRIMARY)
 
