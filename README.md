@@ -53,3 +53,5 @@ bot_id = ID бота
 python3 main.py
 ```
 Работоспособность программы проверена на OC Ubuntu.
+
+PS. Запущенный бот находится по ссылке https://vk.com/weatherinfobot 
