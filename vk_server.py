@@ -29,15 +29,15 @@ class vk_server:
                         if msg in cmd.commands and not self.db.get_user_state(user_id):
                             eval(cmd.commands[msg])
                         elif self.db.get_user_state(user_id) == 1:
-                            if '\\' in msg or '\"' in msg or "where" in msg or "select" in msg or "insert" in msg:
+                            if '\\' in msg or '\"' in msg or "where" in msg or "select" in msg or "insert" in msg or "/" in msg:
                                 self.send_message("Прости, но ты вводишь запрещенные символы.", event)
                             else:
                                 command.input_city(user_id, msg)
                         elif self.db.get_user_state(user_id) == 2:
-                            if '\\' in msg or '\"' in msg or "where" in msg or "select" in msg or "insert" in msg:
+                            if '\\' in msg or '\"' in msg or "where" in msg or "select" in msg or "insert" in msg or "/" in msg:
                                 self.send_message("Прости, но ты вводишь запрещенные символы.", event)
                             else:
-                                command.input_city(user_id, msg)
+                                command.input_region(user_id, msg)
                         else:
                             self.send_message('К сожалению я не знаю такой команды :\'(\n'
                                               'Попробуй ввести другую.'
