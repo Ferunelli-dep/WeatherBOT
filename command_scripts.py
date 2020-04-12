@@ -48,7 +48,7 @@ class commands_scripts:
 
     def hello(self, user_id, user_name):
         self.__send_message("Привет, {}! \n"
-                            "Спасибо, что пользуешься мной".format(user_name),
+                            "Я рад, что ты со мной.".format(user_name),
                             self.event, user_id)
 
     def input_city(self, user_id, message):
@@ -115,7 +115,7 @@ class commands_scripts:
                          "Ну поехали, я набрал информацию и теперь готов тебе её доложить,"]
             text = random.choice(beginning) + \
                    " максимум температура поднимется до {} градусов, " \
-                   "а в среднем будет где-то {}. Скорость ветра может быть около {} км/ч, " \
+                   "в среднем будет где-то {}. Скорость ветра может быть около {} км/ч, " \
                    "а влажность будет в районе {}%." \
                    "В целом будет {}. ".format(weather_now['temp_max'], weather_now['temp'],
                                                                  weather_now['wind_speed'], weather_now['humidity'],
@@ -135,7 +135,7 @@ class commands_scripts:
                 end += "Думаю, стоит сегодня взять зонт или хотя бы плащ. "
             elif weather_now['humidity'] > 60:
                 end += "Не забудь взять с собой зонт."
-            if weather_now[wind] > 20:
+            if weather_now['wind_speed'] > 20:
                 end += "Также сегодня будет сильный ветер, будь очень аккуратен"
             self.__send_message(text+end, self.event, user_id)
         else:

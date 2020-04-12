@@ -14,12 +14,17 @@ class weather:
         }
 
     def check(self):
-        res = requests.get(self.URL, self.params, proxies=self.proxies)
-        data = res.json()
-        if 'message' in data:
-            return False
-        else:
-            return data
+        proxy_state = True
+        while proxy_state:
+            try:
+                res = requests.get(self.URL, self.params, proxies=self.proxies)
+                data = res.json()
+                if 'message' in data:
+                    return False
+                else:
+                    return data
+            except requests.exceptions.ProxyError:
+                continue
 
     def get_weather_now(self):
         proxy_state = True
