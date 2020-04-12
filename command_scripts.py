@@ -25,6 +25,11 @@ class commands_scripts:
     def abort(self, user_id):
         self.db.set_user_state(user_id, 0)
         self.__send_message("Я тебя понял, уже отменяю!", self.event, user_id)
+        if not self.db.get_user_city(user_id):
+            self.cursor.execute("""UPDATE `user_info`
+                              SET UserCity=NULL, UserRegion=NULL
+                              WHERE UserID={}""".format(user_id))
+            self.connection.commit()
 
     def add_city(self, user_id):
         self.db.set_user_state(user_id, 1)
@@ -37,6 +42,9 @@ class commands_scripts:
                                 self.event, user_id)
         else:
             self.__send_message("Ты еще не ввёл свой город. Нажми на кнопку \"Добавить город\"", self.event, user_id)
+
+    def clear_keyboard(self, user_id):
+        self.__send_message("Клавиатура очищена", self.event, user_id)
 
     def help(self, user_id):
         self.__send_message("Хочешь добавить город? Жми на кнопку \"Добавить Город\"\n"

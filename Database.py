@@ -99,9 +99,10 @@ class DataBase:
                 cursor.execute("""SELECT UserCity, UserRegion FROM `user_info` WHERE UserID={}""".format(user_id))
 
             row = cursor.fetchone()
-            if row is not None and row[0] is not None or row[1] is not None:
+            if row is not None and row[0] is not None and row[1] is None:
+                return row[0], False
+            elif row is not None and row[0] is not None and row[1] is not None:
                 return row
-
         return False
 
     def get_user_state(self, user_id):

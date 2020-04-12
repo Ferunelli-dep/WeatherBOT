@@ -56,6 +56,8 @@ class vk_server:
 
             keyboard.add_line()
             keyboard.add_button('Помощь', color=VkKeyboardColor.DEFAULT)
+        elif response == "очистить клавиатуру":
+            keyboard.add_button('Начать', color=VkKeyboardColor.PRIMARY)
         else:
             keyboard.add_button('Отмена', color=VkKeyboardColor.NEGATIVE)
 

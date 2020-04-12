@@ -7,5 +7,6 @@ commands = {
     'добавить город': 'command.add_city(user_id)',
     'привет': 'command.hello(user_id, user_name)',
     'мой город': 'command.city_info(user_id)',
-    'помощь': 'command.help(user_id)'
+    'помощь': 'command.help(user_id)',
+    'очистить клавиатуру': 'command.clear_keyboard(user_id)'
 }
