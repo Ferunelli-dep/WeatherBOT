@@ -4,7 +4,6 @@ from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
 import commands as cmd
 from command_scripts import commands_scripts
-from Database import DataBase
 
 
 class vk_server:
@@ -25,6 +24,8 @@ class vk_server:
                         self.keyboard = self.create_keyboard(msg, user_id)
                         command = commands_scripts(self.vk_api, event, self.keyboard)
                         user_name = self.get_user_name(user_id)
+                        if not self.db.check_user_in_info(user_id):
+                            self.db.add_user_to_bd(user_id, user_name)
                         if msg in cmd.commands and not self.db.get_user_state(user_id):
                             eval(cmd.commands[msg])
                         elif self.db.get_user_state(user_id) == 1:
