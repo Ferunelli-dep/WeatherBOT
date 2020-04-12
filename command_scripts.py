@@ -118,7 +118,7 @@ class commands_scripts:
                    " максимум температура поднимется до {} градусов, " \
                    "в среднем будет где-то {}. Скорость ветра может быть около {} км/ч, " \
                    "а влажность будет в районе {}%. " \
-                   "В целом будет {}. ".format(weather_now['temp_max'],
+                   "Будет {}. ".format(weather_now['temp_max'],
                                                (weather_now['temp'] + weather_now['temp_min']) / 2,
                                                weather_now['wind_speed'], weather_now['humidity'],
                                                weather_now['weather'])
