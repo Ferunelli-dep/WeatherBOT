@@ -8,19 +8,21 @@ import random
 
 
 class commands_scripts:
-    def __init__(self, vk_session, event):
+    def __init__(self, vk_session, event, keyboard):
         self.db = DataBase(data.database['host'], data.database['username'],
                            data.database['password'], data.database['database'],
                            data.database['port'])
         self.vk_api = vk_session
         self.event = event
         self.cursor, self.connection = self.db.connect()
+        self.keyboard = keyboard
 
     def __send_message(self, message, event, user_id):
         self.vk_api.messages.send(peer_id=event.obj.message['from_id'],
                                   user_id=user_id,
                                   random_id=get_random_id(),
-                                  message=message)
+                                  message=message,
+                                  keyboard=self.keyboard)
 
     def abort(self, user_id):
         self.db.set_user_state(user_id, 0)
@@ -41,7 +43,7 @@ class commands_scripts:
     def help(self, user_id):
         self.__send_message("Если ты хочешь добавить город, введи команду \"Добавить Город\"\n"
                             "Если же ты это уже сделал, то можешь ввести команду \"Погода\"\n"
-                            "Ну а есди ты вдруг забыл, какой город ты ввёл, то спроси у меня, я с радостью тебе помогу,"
+                            "Ну а есди ты вдруг забыл, какой город ты ввёл, то спроси у меня, я с радостью тебе помогу, "
                             "Для этого просто намекни мне командой \"Мой город\" и я тебе обязательно отвечу\n"
                             "Если вдруг справка тебе не помогла, то смело @ferunelli(пиши сюда)",
                             self.event, user_id)

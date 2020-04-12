@@ -1,5 +1,6 @@
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
+from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 from vk_api.utils import get_random_id
 import commands as cmd
 from command_scripts import commands_scripts
@@ -12,6 +13,7 @@ class vk_server:
         self.longpoll = VkBotLongPoll(self.vk, bot_id)
         self.vk_api = self.vk.get_api()
         self.db = db
+        self.keyboard = None
 
     def start(self):
         for event in self.longpoll.listen():
@@ -19,8 +21,9 @@ class vk_server:
                 msg = self.get_message(event).lower()
                 if msg != '':
                     if event.from_user:
-                        command = commands_scripts(self.vk_api, event)
                         user_id = self.get_user_id(event)
+                        self.keyboard = self.create_keyboard(msg, user_id)
+                        command = commands_scripts(self.vk_api, event, self.keyboard)
                         user_name = self.get_user_name(user_id)
                         if msg in cmd.commands and not self.db.get_user_state(user_id):
                             eval(cmd.commands[msg])
@@ -33,6 +36,23 @@ class vk_server:
                                               'Попробуй ввести другую.'
                                               'Если вдруг ты не знаешь команды, то я тебе подскажу\n'
                                               'Просто введи слово \"Помощь\"', event)
+
+    def create_keyboard(self, response, user_id):
+        keyboard = VkKeyboard(one_time=False)
+        if response in ['начало', 'привет', 'помощь', 'отмена', 'погода', 'мой город'] or self.db.get_user_state(user_id) == 2:
+            keyboard.add_button('Добавить Город', color=VkKeyboardColor.PRIMARY)
+            keyboard.add_button('Мой Город', color=VkKeyboardColor.PRIMARY)
+
+            keyboard.add_line()
+            keyboard.add_button('Погода', color=VkKeyboardColor.POSITIVE)
+
+            keyboard.add_line()
+            keyboard.add_button('Помощь', color=VkKeyboardColor.DEFAULT)
+        else:
+            keyboard.add_button('Отмена', color=VkKeyboardColor.NEGATIVE)
+
+        keyboard = keyboard.get_keyboard()
+        return keyboard
 
     def send_message(self, message, event):
         self.vk_api.messages.send(peer_id=event.obj.message['from_id'],
